@@ -13,6 +13,7 @@ import EmptyState from "@/components/items-list/components/EmptyState";
 import DynamicForm from "@/components/dynamic-form/DynamicForm";
 import helper from "@/components/dynamic-form/dynamicFormHelper";
 import HelpTrigger, { TYPES as HELP_TRIGGER_TYPES } from "@/components/HelpTrigger";
+import { useUniqueId } from "@/lib/hooks/useUniqueId";
 
 const { Step } = Steps;
 const { Search } = Input;
@@ -44,6 +45,8 @@ class CreateSourceDialog extends React.Component {
     savingSource: false,
     currentStep: StepEnum.SELECT_TYPE,
   };
+
+  formId = useUniqueId("sourceForm");
 
   selectType = selectedType => {
     this.setState({ selectedType, currentStep: StepEnum.CONFIGURE_IT });
@@ -116,7 +119,7 @@ class CreateSourceDialog extends React.Component {
             </HelpTrigger>
           )}
         </div>
-        <DynamicForm id="sourceForm" fields={fields} onSubmit={this.createSource} feedbackIcons hideSubmitButton />
+        <DynamicForm id={this.formId} fields={fields} onSubmit={this.createSource} feedbackIcons hideSubmitButton />
         {selectedType.type === "databricks" && (
           <small>
             By using the Databricks Data Source you agree to the Databricks JDBC/ODBC{" "}
@@ -170,7 +173,7 @@ class CreateSourceDialog extends React.Component {
                 <Button
                   key="submit"
                   htmlType="submit"
-                  form="sourceForm"
+                  form={this.formId}
                   type="primary"
                   loading={savingSource}
                   data-test="CreateSourceSaveButton">

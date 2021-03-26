@@ -21,6 +21,7 @@ import { axios } from "@/services/axios";
 import { Query } from "@/services/query";
 import recordEvent from "@/services/recordEvent";
 import routes from "@/services/routes";
+import { useUniqueId } from "@/lib/hooks/useUniqueId";
 
 class OutdatedQueries extends React.Component {
   static propTypes = {
@@ -70,6 +71,7 @@ class OutdatedQueries extends React.Component {
   };
 
   _updateTimer = null;
+  autoUpdateSwitchId = useUniqueId("auto-update-switch");
 
   componentDidMount() {
     recordEvent("view", "page", "admin/queries/outdated");
@@ -93,11 +95,11 @@ class OutdatedQueries extends React.Component {
       <Layout activeTab={controller.params.currentPage}>
         <div className="m-15">
           <div>
-            <label htmlFor="auto-update-switch" className="m-0">
+            <label htmlFor={this.autoUpdateSwitchId} className="m-0">
               Auto update
             </label>
             <Switch
-              id="auto-update-switch"
+              id={this.autoUpdateSwitchId}
               className="m-l-10"
               checked={this.state.autoUpdate}
               onChange={autoUpdate => this.setState({ autoUpdate })}

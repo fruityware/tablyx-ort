@@ -12,6 +12,7 @@ import Filters from "@/components/Filters";
 
 import { Dashboard } from "@/services/dashboard";
 import routes from "@/services/routes";
+import { useUniqueId } from "@/lib/hooks/useUniqueId";
 
 import logoUrl from "@/assets/images/redash_icon_small.png";
 
@@ -23,6 +24,8 @@ function PublicDashboard({ dashboard }) {
   const { globalParameters, filters, setFilters, refreshDashboard, loadWidget, refreshWidget } = useDashboard(
     dashboard
   );
+
+  const dashboardContainerId = useUniqueId("dashboard-container");
 
   return (
     <div className="container p-t-10 p-b-20">
@@ -37,7 +40,7 @@ function PublicDashboard({ dashboard }) {
           <Filters filters={filters} onChange={setFilters} />
         </div>
       )}
-      <div id="dashboard-container">
+      <div id={dashboardContainerId}>
         <DashboardGrid
           dashboard={dashboard}
           widgets={dashboard.widgets}

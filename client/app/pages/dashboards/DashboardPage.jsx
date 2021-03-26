@@ -18,6 +18,7 @@ import routes from "@/services/routes";
 import location from "@/services/location";
 import url from "@/services/url";
 import useImmutableCallback from "@/lib/hooks/useImmutableCallback";
+import { useUniqueId } from "@/lib/hooks/useUniqueId";
 
 import useDashboard from "./hooks/useDashboard";
 import DashboardHeader from "./components/DashboardHeader";
@@ -95,6 +96,8 @@ function DashboardComponent(props) {
     updateDashboard({ options: { globalParamOrder: paramOrder } });
   };
 
+  const dashboardContainerId = useUniqueId("dashboard-container");
+
   useEffect(() => {
     if (pageContainer) {
       const unobserve = resizeObserver(pageContainer, () => {
@@ -144,7 +147,7 @@ function DashboardComponent(props) {
         </div>
       )}
       {editingLayout && <DashboardSettings dashboardConfiguration={dashboardConfiguration} />}
-      <div id="dashboard-container">
+      <div id={dashboardContainerId}>
         <DashboardGrid
           dashboard={dashboard}
           widgets={dashboard.widgets}

@@ -9,6 +9,8 @@ import Modal from "antd/lib/modal";
 import { wrap as wrapDialog, DialogPropType } from "@/components/DialogWrapper";
 import { clientConfig } from "@/services/auth";
 import CodeBlock from "@/components/CodeBlock";
+import { useUniqueId } from "@/lib/hooks/useUniqueId";
+
 import "./EmbedQueryDialog.less";
 
 class EmbedQueryDialog extends React.Component {
@@ -36,6 +38,9 @@ class EmbedQueryDialog extends React.Component {
     }
   }
 
+  urlEmbedLabelId = useUniqueId("url-embed-label");
+  iframeEmbedLabelId = useUniqueId("iframe-embed-label");
+
   render() {
     const { query, dialog } = this.props;
     const { enableChangeIframeSize, iframeWidth, iframeHeight } = this.state;
@@ -48,19 +53,19 @@ class EmbedQueryDialog extends React.Component {
         footer={<Button onClick={dialog.dismiss}>Close</Button>}>
         {query.is_safe ? (
           <React.Fragment>
-            <h5 id="url-embed-label" className="m-t-0">
+            <h5 id={this.urlEmbedLabelId} className="m-t-0">
               Public URL
             </h5>
             <div className="m-b-30">
-              <CodeBlock aria-labelledby="url-embed-label" data-test="EmbedIframe" copyable>
+              <CodeBlock aria-labelledby={this.urlEmbedLabelId} data-test="EmbedIframe" copyable>
                 {this.embedUrl}
               </CodeBlock>
             </div>
-            <h5 id="iframe-embed-label" className="m-t-0">
+            <h5 id={this.iframeEmbedLabelId} className="m-t-0">
               IFrame Embed
             </h5>
             <div>
-              <CodeBlock aria-labelledby="iframe-embed-label" copyable>
+              <CodeBlock aria-labelledby={this.iframeEmbedLabelId} copyable>
                 {`<iframe src="${this.embedUrl}" width="${iframeWidth}" height="${iframeHeight}"></iframe>`}
               </CodeBlock>
               <Form className="m-t-10" layout="inline">
