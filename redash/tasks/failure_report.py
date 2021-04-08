@@ -53,7 +53,7 @@ def send_failure_report(user_id):
             "base_url": base_url(user.org),
         }
 
-        subject = "Redash failed to execute {} of your scheduled queries".format(
+        subject = "Tablyx failed to execute {} of your scheduled queries".format(
             len(unique_errors.keys())
         )
         html, text = [

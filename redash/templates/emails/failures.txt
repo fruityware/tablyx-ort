@@ -1,4 +1,4 @@
-Redash failed to run the following queries:
+Tablyx failed to run the following queries:
 
 {% for failure in failures %}
 

@@ -98,7 +98,7 @@ routes.register(
   "Home",
   routeWithUserSession({
     path: "/",
-    title: "Redash",
+    title: "Tablyx",
     render: pageProps => <Home {...pageProps} />,
   })
 );

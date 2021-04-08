@@ -1,7 +1,7 @@
 {
   "name": "@redash/viz",
   "version": "1.0.0",
-  "description": "Redash visualizations",
+  "description": "Tablyx visualizations",
   "main": "dist/redash-visualizations.js",
   "scripts": {
     "clean": "rm -rf lib dist",
