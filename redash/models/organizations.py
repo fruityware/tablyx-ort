@@ -28,7 +28,8 @@ class Organization(TimestampMixin, db.Model):
 
     @classmethod
     def get_by_slug(cls, slug):
-        return cls.query.filter(cls.slug == slug).first()
+        slug_lower = slug.lower()
+        return cls.query.filter(cls.slug == slug_lower).first()
 
     @classmethod
     def get_by_id(cls, _id):
