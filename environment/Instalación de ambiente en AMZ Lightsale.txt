@@ -1,0 +1,106 @@
+
+
+
+sudo apt-get update && sudo apt-get install -y curl gnupg build-essential pwgen libffi-dev sudo git-core wget libpq-dev g++ unixodbc-dev xmlsec1 libssl-dev default-libmysqlclient-dev freetds-dev libsasl2-dev unzip libsasl2-modules-gssapi-mit
+  
+
+  #MSSQL ODBC Driver:
+  sudo -i
+
+  curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && curl https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list && apt-get update && ACCEPT_EULA=Y apt-get install -y msodbcsql17 && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+
+
+***************************
+
+
+#BAJAR ARCHIVO
+
+wget -O simba_odbc.zip https://databricks.com/wp-content/uploads/2.6.10.1010-2/SimbaSparkODBC-2.6.10.1010-2-Debian-64bit.zip
+
+unzip simba_odbc.zip -d /tmp/
+
+sudo dpkg -i /tmp/SimbaSparkODBC-*/*.deb
+
+sudo sh -c "echo '[Simba]\nDriver = /opt/simba/spark/lib/64/libsparkodbc_sb64.so' >> /etc/odbcinst.ini"
+
+rm simba_odbc.zip
+
+rm -rf /tmp/SimbaSparkODBC*
+
+
+***************************
+
+sudo apt-get update
+
+sudo apt install python3-pip
+
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+
+#Reiniciar Consola para poder utilizar el comando NVM
+
+nvm install 12.14.1
+
+
+_____________POSTGRES
+
+#sudo apt install postgresql postgresql-contrib
+
+#sudo service postgresql start 
+
+#sudo -u postgres createuser mperes
+
+_________________REDIS
+
+sudo apt install redis-server
+
+sudo service redis-server start
+
+_______________________-TABLYX
+
+Bajar el código de redash y dejarlo en Home/usr/Dev/tablyx:
+
+pip3 install -r requirements.txt
+
+pip3 install numpy
+_____________________________________LLVM10
+sudo apt-get install llvm-10*
+sudo -i
+cd /usr/bin
+rm llvm-config #if it exists already, which probably it does
+ln -s llvm-config-10 llvm-config
+___________________________________________
+
+sudo pip3 install -r requirements_all_ds.txt
+
+
+______CREACION DE TABLAS
+
+chmod +x manage.py
+
+python3 ./manage.py database create_tables
+
+_______________ Agregar variables de entorno al al archivo /home/ubuntu/.bashrc
+
+export REDASH_MAIL_SERVER=smtp.zoho.com
+export REDASH_MAIL_PORT=587
+export REDASH_MAIL_USE_TLS=true
+export REDASH_MAIL_USE_SSL=false
+export REDASH_MAIL_USERNAME='tablyx@fruityware.com'
+export REDASH_MAIL_PASSWORD='v+%v5Wfr43_j(DW'
+export REDASH_MAIL_DEFAULT_SENDER='tablyx@fruityware.com'
+export REDASH_HOST='http://www.tablyx.com:5000'
+
+______________________EJECUCION
+
+cd tablyx
+
+sudo -E python3 /home/ubuntu/tablyx/manage.py runserver -h 0.0.0.0 & 
+
+# Si no se ejecuta con SUDO luego no funciona el envío de correos
+# Las variables de entorno tienen que estar en bashrc para que las tome al ejecutarse con SUDO
+sudo -E python3 /home/ubuntu/tablyx/manage.py rq worker & 
+
+sudo -E python3 /home/ubuntu/tablyx/manage.py rq scheduler &
+
+

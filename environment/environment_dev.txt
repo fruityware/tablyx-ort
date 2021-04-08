@@ -1,0 +1,10 @@
+REDASH_MULTI_ORG=true
+REDASH_MAIL_SERVER=smtp.zoho.com
+REDASH_MAIL_PORT=587
+REDASH_MAIL_USE_TLS=true
+REDASH_MAIL_USE_SSL=false
+REDASH_MAIL_USERNAME='tablyx@fruityware.com'
+REDASH_MAIL_PASSWORD='v+%v5Wfr43_j(DW'
+REDASH_MAIL_DEFAULT_SENDER='tablyx@fruityware.com'
+REDASH_HOST='localhost'
+DATABASE_URL='postgresql:///mperes'
