@@ -4,9 +4,9 @@ exports.seedData = [
     type: "form",
     data: {
       name: "Example Admin",
-      email: "admin@redash.io",
+      email: "admin@tablyx.com",
       password: "password",
-      org_name: "Redash",
+      org_name: "Tablyx",
     },
   },
   {

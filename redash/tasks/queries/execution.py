@@ -16,7 +16,7 @@ from redash.utils import gen_query_hash, json_dumps, utcnow
 from redash.worker import get_job_logger
 
 logger = get_job_logger(__name__)
-TIMEOUT_MESSAGE = "Query exceeded Redash query execution time limit."
+TIMEOUT_MESSAGE = "Query exceeded Tablyx query execution time limit."
 
 
 def _job_lock_id(query_hash, data_source_id):

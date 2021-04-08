@@ -20,7 +20,11 @@ class SetupForm(Form):
 
 
 def create_org(org_name, user_name, email, password):
-    default_org = Organization(name=org_name, slug="default", settings={})
+    # Se remueven caracteres especiales y espacios del nombre
+    org_name_url = ''.join(e for e in org_name if e.isalnum())
+    org_name_url = org_name_url.lower()
+    
+    default_org = Organization(name=org_name, slug=org_name_url, settings={})
     admin_group = Group(
         name="admin",
         permissions=["admin", "super_admin"],
@@ -28,7 +32,7 @@ def create_org(org_name, user_name, email, password):
         type=Group.BUILTIN_GROUP,
     )
     default_group = Group(
-        name="default",
+        name=org_name_url,
         permissions=Group.DEFAULT_PERMISSIONS,
         org=default_org,
         type=Group.BUILTIN_GROUP,
@@ -53,9 +57,13 @@ def create_org(org_name, user_name, email, password):
 
 @routes.route("/setup", methods=["GET", "POST"])
 def setup():
-    if current_org != None or settings.MULTI_ORG:
+    '''
+    if settings.MULTI_ORG and current_org != None:
+        index_url = url_for("redash.index", org_slug=current_org.slug, _external=False)
+        return redirect(index_url)
+    elif current_org != None:
         return redirect("/")
-
+    '''
     form = SetupForm(request.form)
     form.newsletter.data = True
     form.security_notifications.data = True
@@ -72,6 +80,6 @@ def setup():
         if form.newsletter.data or form.security_notifications:
             subscribe.delay(form.data)
 
-        return redirect(url_for("redash.index", org_slug=None))
+        return redirect(url_for("redash.index", org_slug=default_org.slug))
 
     return render_template("setup.html", form=form)
